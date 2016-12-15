@@ -5,6 +5,8 @@ import goods from 'components/goods/goods';
 import ratings from 'components/ratings/ratings';
 import seller from 'components/seller/seller';
 
+import 'common/stylus/index.styl';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -13,13 +15,16 @@ const routes = [
   {path: '/seller', component: seller}
 ];
 
-  const router = new VueRouter({
-    routes
-  });
+const router = new VueRouter({
+  linkActiveClass: 'active',
+  routes: routes
+});
 
 /* eslint-disable no-new */
 new Vue({
-  router: router,
-  ...App
+  template: '<App/>',
+  components: {App},
+  router: router
 }).$mount('#app');
 
+router.push('/goods');
