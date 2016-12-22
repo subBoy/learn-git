@@ -31,6 +31,7 @@
     </div>
     <transition name="fade">
       <div v-show="detailShow" class="detail">
+        <em class="de-bg"></em>
         <div class="detail-wrapper clearfix">
           <div class="detail-main">
             <h1 class="name" v-text="seller.name"></h1>
@@ -218,14 +219,26 @@
       width: 100%
       height: 100%
       overflow: auto
-      background: rgba(7, 17, 27, 0.8)
       transition: all .3s
       &.fade-enter-active, &.fade-leave
         opacity: 1
-        background: rgba(7, 17, 27, 0.8)
+        .de-bg
+          background: rgba(7, 17, 27, 0.8)
       &.fade-enter, &.fade-leave-active
         opacity: 0
-        background: rgba(7, 17, 27, 0.1)
+        .de-bg
+          background: rgba(7, 17, 27, 0.1)
+      .de-bg
+        display: block
+        width: 100%
+        height: 100%
+        position: absolute
+        top: 0
+        left: 0
+        z-index: -1
+        background: rgba(7, 17, 27, 0.8)
+        backdrop-filter: blur(10px)
+        filter: blur(10px)
       .detail-wrapper
         min-height: 100%
         width: 100%
