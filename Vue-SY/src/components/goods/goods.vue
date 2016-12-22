@@ -21,6 +21,10 @@
               <div class="content">
                 <h3 class="name" v-text="food.name"></h3>
                 <p class="desc" v-text="food.description"></p>
+                <div class="extra">
+                  <span>月售：{{food.sellCount}} 份</span>
+                  <span>好评率：{{food.rating}}%</span>
+                </div>
               </div>
             </li>
           </ul>
