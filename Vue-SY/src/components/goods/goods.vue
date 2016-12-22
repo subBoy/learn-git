@@ -14,7 +14,7 @@
         <li class="food-list" v-for="(item, index) in goods">
           <h1 class="title" v-text="item.name"></h1>
           <ul>
-            <li class="food-item" v-for="(food, index) in foods">
+            <li class="food-item" v-for="(food, index) in item.foods">
               <div class="icon">
                 <img :src="food.icon" alt="">
               </div>
