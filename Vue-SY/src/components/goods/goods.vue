@@ -1,20 +1,20 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li class="menu-item" v-for="(item, index) in goods">
+        <li class="menu-item" :class="{'current':currentIndex===index}" v-for="(item, index) in goods">
           <span class="text">
             <span class="icon" :class="classMap[item.type]" v-show="item.type > 0"></span>{{item.name}}
           </span>
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li class="food-list" v-for="(item, index) in goods">
+        <li class="food-list food-list-hook" v-for="(item, index) in goods">
           <h1 class="title" v-text="item.name"></h1>
           <ul>
-            <li class="food-item" v-for="(food, index) in item.foods">
+            <li class="food-item border-1px" v-for="(food, index) in item.foods">
               <div class="icon">
                 <img class="icon-img" :src="food.icon" alt="">
               </div>
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+  import BScroll from 'better-scroll';
+
   const ERR_OK = 0;
 
   export default {
@@ -49,8 +51,25 @@
     },
     data () {
       return {
-        goods: []
+        goods: [],
+        listHeight: [],
+        scrollY: 0
       };
+    },
+    computed: {
+      currentIndex () {
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            // let menuList = this.$refs.menuWrapper.getElementsByClassName('menu-item-hook');
+            // let el = menuList[i];
+            // this.menuScroll.scrollToElement(el, 300);
+            return i;
+          }
+        };
+        return 0;
+      }
     },
     created () {
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -58,8 +77,34 @@
         response = response.body;
         if (response.errno === ERR_OK) {
           this.goods = response.data;
+          this.$nextTick(function () {
+            this._initScroll();
+            this._calculateHeight();
+          });
         }
       });
+    },
+    methods: {
+      _initScroll () {
+        this.meunScroll = new BScroll(this.$refs.menuWrapper, {});
+
+        this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
+          probeType: 3
+        });
+        this.foodScroll.on('scroll', function (pos) {
+          this.scrollY = Math.abs(Math.round(pos.y));
+        });
+      },
+      _calculateHeight () {
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+        let height = 0;
+        this.listHeight.push(height);
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i];
+          height += item.clientHeight;
+          this.listHeight.push(height);
+        };
+      }
     }
   };
 </script>
@@ -81,7 +126,15 @@
         display: table
         width: 56px
         height: 54px
-        margin: 0 auto
+        padding: 0 12px
+        &.current
+          position: relative
+          z-index: 10
+          margin-top: -1px
+          background: #fff
+          font-weight: 700
+          .text
+            border-none()
         .icon
           display: inline-block
           vertical-align: top
@@ -126,7 +179,10 @@
           margin: 0 18px
           padding: 18px 0
           border-1px(rgba(7, 17, 27, 0.1))
+          &:last-child
+            border-none()
           .icon
+            flex: 0 0 68px
             width: 68px
             .icon-img
               width: 58px
@@ -135,35 +191,39 @@
             .name
               font-size: 14px
               line-height: 14px
+              height: 14px
               color: rgb(7, 17, 27)
-              padding: 2px 0 8px 0
+              margin: 2px 0 8px 0
             .desc
               font-size: 10px
               line-height: 10px
               color: rgb(147, 153, 159)
               padding-bottom: 8px
-            .sellCount
-              display: inline-block
-              font-size: 10px
-              line-height: 10px
-              color: rgb(147, 153, 159)
-              padding-right: 12px
-            .rating
-              display: inline-block
-              font-size: 10px
-              line-height: 10px
-              color: rgb(147, 153, 159)
+            .extra
+              font-size: 0
+              .sellCount
+                display: inline-block
+                font-size: 10px
+                line-height: 10px
+                color: rgb(147, 153, 159)
+                padding-right: 12px
+              .rating
+                display: inline-block
+                font-size: 10px
+                line-height: 10px
+                color: rgb(147, 153, 159)
             .price
-              font-size: 10px/14px
+              font-size: 14px
               color: rgb(240, 20, 20)
-              font-weight: normal/700
+              font-weight: 700
               line-height: 24px
               font-family: "微软雅黑"
             .oldPrice
               font-size: 10px
               color: rgb(147, 153, 159)
-              font-weight: normal/700
+              font-weight: 700
               line-height: 24px
               font-family: "微软雅黑"
+              text-decoration:line-through
 </style>
 
