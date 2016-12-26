@@ -2,7 +2,7 @@
   <div class="goods">
     <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li class="menu-item" :class="{'current':currentIndex===index}" v-for="(item, index) in goods">
+        <li class="menu-item menu-item-hook" :class="{'current':currentIndex===index}" @click="selectMenu(index, $event)" v-for="(item, index) in goods">
           <span class="text">
             <span class="icon" :class="classMap[item.type]" v-show="item.type > 0"></span>{{item.name}}
           </span>
@@ -62,9 +62,9 @@
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-            // let menuList = this.$refs.menuWrapper.getElementsByClassName('menu-item-hook');
-            // let el = menuList[i];
-            // this.menuScroll.scrollToElement(el, 300);
+            let itemList = this.$refs.menuWrapper.getElementsByClassName('menu-item-hook');
+            let el = itemList[i];
+            this.meunScroll.scrollToElement(el, 300);
             return i;
           }
         };
@@ -77,22 +77,35 @@
         response = response.body;
         if (response.errno === ERR_OK) {
           this.goods = response.data;
+          let _this = this;
           this.$nextTick(function () {
-            this._initScroll();
-            this._calculateHeight();
+            _this._initScroll();
+            _this._calculateHeight();
           });
         }
       });
     },
     methods: {
+      selectMenu (index, event) {
+        if (!event._constructed) {
+          return;
+        };
+        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook');
+        let el = foodList[index];
+        this.foodScroll.scrollToElement(el, 300);
+      },
       _initScroll () {
-        this.meunScroll = new BScroll(this.$refs.menuWrapper, {});
+        this.meunScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        });
 
         this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
           probeType: 3
         });
+
+        let _this = this;
         this.foodScroll.on('scroll', function (pos) {
-          this.scrollY = Math.abs(Math.round(pos.y));
+          _this.scrollY = Math.abs(Math.round(pos.y));
         });
       },
       _calculateHeight () {
@@ -132,9 +145,9 @@
           z-index: 10
           margin-top: -1px
           background: #fff
-          font-weight: 700
           .text
             border-none()
+            font-weight: 700
         .icon
           display: inline-block
           vertical-align: top
