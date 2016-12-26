@@ -14,13 +14,17 @@
         <li class="food-list" v-for="(item, index) in goods">
           <h1 class="title" v-text="item.name"></h1>
           <ul>
-            <li class="food-item" v-for="(food, index) in tiem.foods">
+            <li class="food-item" v-for="(food, index) in item.foods">
               <div class="icon">
                 <img :src="food.icon" alt="">
               </div>
               <div class="content">
                 <h3 class="name" v-text="food.name"></h3>
                 <p class="desc" v-text="food.description"></p>
+                <div class="extra">
+                  <span>月售：{{food.sellCount}} 份</span>
+                  <span>好评率：{{food.rating}}%</span>
+                </div>
               </div>
             </li>
           </ul>
