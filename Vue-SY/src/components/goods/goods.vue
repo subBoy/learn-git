@@ -29,17 +29,23 @@
                   <span class="price">￥{{food.price}}</span>
                   <span class="oldPrice" v-if="food.oldPrice != ''">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
+  import shopcart from 'components/shopcart/shopcart';
+  import cartcontrol from 'components/cartcontrol/cartcontrol';
 
   const ERR_OK = 0;
 
@@ -69,6 +75,17 @@
           }
         };
         return 0;
+      },
+      selectFoods () {
+        let foods = [];
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     created () {
@@ -100,6 +117,7 @@
         });
 
         this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
           probeType: 3
         });
 
@@ -118,6 +136,10 @@
           this.listHeight.push(height);
         };
       }
+    },
+    components: {
+      shopcart,
+      cartcontrol
     }
   };
 </script>
@@ -225,18 +247,22 @@
                 font-size: 10px
                 line-height: 10px
                 color: rgb(147, 153, 159)
-            .price
-              font-size: 14px
-              color: rgb(240, 20, 20)
-              font-weight: 700
-              line-height: 24px
-              font-family: "微软雅黑"
-            .oldPrice
-              font-size: 10px
-              color: rgb(147, 153, 159)
-              font-weight: 700
-              line-height: 24px
-              font-family: "微软雅黑"
-              text-decoration:line-through
+            .pricees
+              font-size: 0
+              .price
+                font-size: 14px
+                color: rgb(240, 20, 20)
+                font-family: "微软雅黑"
+              .oldPrice
+                font-size: 10px
+                color: rgb(147, 153, 159)
+                font-weight: 700
+                line-height: 24px
+                font-family: "微软雅黑"
+                text-decoration:line-through
+            .cartcontrol-wrapper
+              position: absolute
+              right: 0
+              bottom: 12px
 </style>
 
