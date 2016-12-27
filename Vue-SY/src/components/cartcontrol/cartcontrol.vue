@@ -28,6 +28,7 @@
         } else {
           this.food.count++;
         };
+        this.$dispatch('cart.add', event.target);
       },
       removeCart (event) {
         if (!event._constructed) {
@@ -53,12 +54,12 @@
         font-size: 24px
         color: rgb(0, 160, 220)
         transition: all .4s linear
-      &.move-enter, &.move-leave
+      &.move-leave
         opacity: 1
         transform: translate3D(0, 0, 0)
         .inner
           transform: rotate(0)
-      &.move-enter-active, &.move-leave-active
+      &.move-enter, &.move-leave-active
         opacity: 0
         transform: translate3D(24px, 0, 0)
         .inner

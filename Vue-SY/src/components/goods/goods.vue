@@ -38,7 +38,7 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -111,6 +111,9 @@
         let el = foodList[index];
         this.foodScroll.scrollToElement(el, 300);
       },
+      _drop (target) {
+        this.$refs.shopcart.drop(target);
+      },
       _initScroll () {
         this.meunScroll = new BScroll(this.$refs.menuWrapper, {
           click: true
@@ -140,6 +143,11 @@
     components: {
       shopcart,
       cartcontrol
+    },
+    events: {
+      'cart.add' (target) {
+        this._drop(target);
+      }
     }
   };
 </script>
@@ -241,18 +249,20 @@
                 font-size: 10px
                 line-height: 10px
                 color: rgb(147, 153, 159)
-                padding-right: 12px
+                padding: 0 12px 8px 0
               .rating
                 display: inline-block
                 font-size: 10px
                 line-height: 10px
                 color: rgb(147, 153, 159)
+                padding: 0 0 8px 0
             .pricees
               font-size: 0
               .price
                 font-size: 14px
                 color: rgb(240, 20, 20)
                 font-family: "微软雅黑"
+                padding-right: 6px
               .oldPrice
                 font-size: 10px
                 color: rgb(147, 153, 159)
