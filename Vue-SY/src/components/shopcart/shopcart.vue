@@ -16,11 +16,11 @@
       </div>
     </div>
     <div class="ball-container">
-      <transition name="drop">
-        <div class="ball" v-for="ball in balls" v-show="ball.show">
+      <transition-group name="drop" tag="div">
+        <div class="ball" v-for="ball in balls" :key="ball" v-show="ball.show">
           <div class="inner"></div>
         </div>
-      </transition>
+      </transition-group>
     </div>
   </div>
 </template>

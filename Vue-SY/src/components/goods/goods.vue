@@ -38,7 +38,7 @@
         </li>
       </ul>
     </div>
-    <shopcart v-ref:shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
@@ -101,6 +101,7 @@
           });
         }
       });
+      this.$on('cart.add', this._drop);
     },
     methods: {
       selectMenu (index, event) {
@@ -114,7 +115,7 @@
       _drop (target) {
         this.$refs.shopcart.drop(target);
       },
-      _initScroll () {
+      _initScroll (event) {
         this.meunScroll = new BScroll(this.$refs.menuWrapper, {
           click: true
         });
@@ -123,7 +124,6 @@
           click: true,
           probeType: 3
         });
-
         let _this = this;
         this.foodScroll.on('scroll', function (pos) {
           _this.scrollY = Math.abs(Math.round(pos.y));
@@ -143,11 +143,6 @@
     components: {
       shopcart,
       cartcontrol
-    },
-    events: {
-      'cart.add' (target) {
-        this._drop(target);
-      }
     }
   };
 </script>

@@ -28,7 +28,9 @@
         } else {
           this.food.count++;
         };
-        this.$dispatch('cart.add', event.target);
+        this.$nextTick(() => {
+          this.$emit('cart.add', event.target);
+        });
       },
       removeCart (event) {
         if (!event._constructed) {
