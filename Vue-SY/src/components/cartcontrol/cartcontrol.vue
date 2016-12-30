@@ -1,12 +1,12 @@
 <template>
   <div class="cartcontrol">
     <transition name="move">
-      <div class="cart-decrease" @click="removeCart($event)" v-show="food.count > 0">
+      <div class="cart-decrease" @click="removeCart" v-show="food.count > 0">
         <span class="inner icon-remove_circle_outline"></span>
       </div>
     </transition>
     <div class="cart-count" v-show="food.count > 0">{{food.count}}</div>
-    <div class="cart-add icon-add_circle" @click="addCart($event)"></div>
+    <div class="cart-add icon-add_circle" @click="addCart"></div>
   </div>
 </template>
 
@@ -28,9 +28,7 @@
         } else {
           this.food.count++;
         };
-        this.$nextTick(() => {
-          this.$emit('cart.add', event.target);
-        });
+        this.$emit('cartadd', event.target);
       },
       removeCart (event) {
         if (!event._constructed) {
@@ -58,12 +56,12 @@
         transition: all .4s linear
       &.move-leave
         opacity: 1
-        transform: translate3D(0, 0, 0)
+        transform: translate3d(0, 0, 0)
         .inner
           transform: rotate(0)
       &.move-enter, &.move-leave-active
         opacity: 0
-        transform: translate3D(24px, 0, 0)
+        transform: translate3d(24px, 0, 0)
         .inner
           transform: rotate(180deg)
     .cart-count
@@ -71,8 +69,10 @@
       vertical-align: top
       font-size: 10px
       color: rgb(147, 153, 159)
-      line-height: 24px;
+      line-height: 24px
       padding: 6px
+      width: 20px;
+      text-align: center
     .cart-add
       display: inline-block
       vertical-align: top

@@ -30,7 +30,7 @@
                   <span class="oldPrice" v-if="food.oldPrice != ''">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  <cartcontrol :food="food"></cartcontrol>
+                  <cartcontrol @cartadd="getCartadd" :food="food"></cartcontrol>
                 </div>
               </div>
             </li>
@@ -101,7 +101,7 @@
           });
         }
       });
-      this.$on('cart.add', this._drop);
+      // this.$on('cartadd', this._drop);
     },
     methods: {
       selectMenu (index, event) {
@@ -113,13 +113,18 @@
         this.foodScroll.scrollToElement(el, 300);
       },
       _drop (target) {
-        this.$refs.shopcart.drop(target);
+        // 体验优化， 执行下落动画
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target);
+        });
+      },
+      getCartadd (target) {
+        this._drop(target);
       },
       _initScroll (event) {
         this.meunScroll = new BScroll(this.$refs.menuWrapper, {
           click: true
         });
-
         this.foodScroll = new BScroll(this.$refs.foodsWrapper, {
           click: true,
           probeType: 3
@@ -268,6 +273,6 @@
             .cartcontrol-wrapper
               position: absolute
               right: 0
-              bottom: 12px
+              bottom: 0px
 </style>
 
