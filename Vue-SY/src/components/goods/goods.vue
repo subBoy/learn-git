@@ -273,6 +273,6 @@
             .cartcontrol-wrapper
               position: absolute
               right: 0
-              bottom: 0px
+              bottom: 12px
 </style>
 

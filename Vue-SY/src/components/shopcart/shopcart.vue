@@ -1,6 +1,6 @@
 <template>
   <div class="shopcart">
-    <div class="content">
+    <div class="content" @click="toggleList">
       <div class="content-left">
         <div class="logo-wrapper">
           <div class="logo" :class="{'highlight': totalCount > 0}">
@@ -22,10 +22,31 @@
         </div>
       </transition>
     </div>
+    <transition name="fold">
+      <div class="shopcart-list" v-show="listShow">
+        <div class="list-header">
+          <h1 class="title">购物车</h1>
+          <span class="empty">清空</span>
+        </div>
+        <div class="list-content" ref="listContent">
+          <ul>
+            <li class="food" v-for="food in selectFoods">
+              <span class="name">{{food.name}}</span>
+              <div class="price"><span>￥{{food.price * food.count}}</span></div>
+              <div class="cartcontrol-wrapper">
+                <cartcontrol @cartadd="drop" :food="food"></cartcontrol>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+  // import BScroll from 'better-scroll';
+  import cartcontrol from 'components/cartcontrol/cartcontrol';
   export default {
     props: {
       selectFoods: {
@@ -62,7 +83,8 @@
             show: false
           }
         ],
-        dropBalls: []
+        dropBalls: [],
+        fold: true
       };
     },
     computed: {
@@ -96,9 +118,23 @@
         } else {
           return 'enough';
         }
+      },
+      listShow () {
+        if (!this.totalCount) {
+          this.fold = true;
+          return false;
+        };
+        let show = !this.fold;
+        return show;
       }
     },
     methods: {
+      toggleList () {
+        if (!this.totalCount) {
+          return;
+        }
+        this.fold = !this.fold;
+      },
       drop (el) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i];
@@ -145,11 +181,15 @@
           el.style.display = 'none';
         }
       }
+    },
+    components: {
+      cartcontrol
     }
   };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixin.styl"
   .shopcart
     position: fixed
     left: 0
@@ -255,4 +295,54 @@
           border-radius: 100%
           background: rgb(0, 160, 220)
           transition: all .4s linear
+    .shopcart-list
+      position: absolute
+      top: 0
+      left: 0
+      z-index: -1
+      width: 100%
+      transition: all .5s
+      transform: translate3d(0, -100%, 0)
+      &.fold-enter, &.fold-leave-active
+        transform: translate3d(0, 0, 0)
+      .list-header
+        display: flex
+        hieght: 40px
+        line-height: 40px
+        padding: 0 18px
+        background: #f3f5f7
+        border-bottom: 1px solid rgba(7, 17, 27, 0.1)
+        .title
+          flex: 1
+          font-weight: 14px
+          font-weight: 200
+          color: rgb(7, 17, 27)
+        .empty
+          display: inline-block
+          flex: 0 0 24px
+          font-size: 12px
+          color: rgb(0, 160, 220)
+          width: 24px
+      .list-content
+        padding: 0 18px
+        background: #fff
+        max-height: 217px
+        .food
+          display: flex
+          padding: 12px 0
+          border-1px(rgba(7, 17, 27, 0.1))
+          .name
+            flex: 1
+            height: 24px
+            line-height: 24px
+            font-weight: 700
+          .price
+            height: 24px
+            line-height: 24px
+            padding: 0 12px 0 18px
+            font-size: 14px
+            font-weight: 700
+            color: rgb(240, 20, 20)
+            font-family: "微软雅黑"
+
 </style>

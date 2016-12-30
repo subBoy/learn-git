@@ -46,7 +46,6 @@
     .cart-decrease
       display: inline-block
       vertical-align: top
-      padding: 6px
       transition: all .4s linear
       .inner
         display: inline-block
@@ -70,14 +69,12 @@
       font-size: 10px
       color: rgb(147, 153, 159)
       line-height: 24px
-      padding: 6px
       width: 20px;
       text-align: center
     .cart-add
       display: inline-block
       vertical-align: top
       line-height: 24px
-      padding: 6px
       font-size: 24px
       color: rgb(0, 160, 220)
 </style>
