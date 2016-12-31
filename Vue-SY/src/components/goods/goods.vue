@@ -101,7 +101,6 @@
           });
         }
       });
-      // this.$on('cartadd', this._drop);
     },
     methods: {
       selectMenu (index, event) {
