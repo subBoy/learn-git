@@ -11,10 +11,10 @@
     </div>
     <div class="foods-wrapper" ref="foodsWrapper">
       <ul>
-        <li class="food-list food-list-hook" v-for="(item, index) in goods">
+        <li class="food-list food-list-hook" v-for="item in goods">
           <h1 class="title" v-text="item.name"></h1>
           <ul>
-            <li class="food-item border-1px" v-for="(food, index) in item.foods">
+            <li class="food-item border-1px" v-for="food in item.foods" @click="selectFood(food, $event)">
               <div class="icon">
                 <img class="icon-img" :src="food.icon" alt="">
               </div>
@@ -39,6 +39,7 @@
       </ul>
     </div>
     <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <detail ref="detail" :cartadd="getCartadd" :food="selectedFood"></detail>
   </div>
 </template>
 
@@ -46,6 +47,7 @@
   import BScroll from 'better-scroll';
   import shopcart from 'components/shopcart/shopcart';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
+  import detail from 'components/detail/detail';
 
   const ERR_OK = 0;
 
@@ -59,7 +61,8 @@
       return {
         goods: [],
         listHeight: [],
-        scrollY: 0
+        scrollY: 0,
+        selectedFood: {}
       };
     },
     computed: {
@@ -103,6 +106,13 @@
       });
     },
     methods: {
+      selectFood (food, event) {
+        if (!event._constructed) {
+          return;
+        };
+        this.selectedFood = food;
+        this.$refs.detail.detailShow();
+      },
       selectMenu (index, event) {
         if (!event._constructed) {
           return;
@@ -146,7 +156,8 @@
     },
     components: {
       shopcart,
-      cartcontrol
+      cartcontrol,
+      detail
     }
   };
 </script>
