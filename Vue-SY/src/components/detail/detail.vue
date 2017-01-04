@@ -5,6 +5,9 @@
         <div class="food-content">
           <div class="img-header">
             <img class="pic" :src="food.image">
+            <div class="go-back">
+              <i class="icon-arrow_lift" @click="detailHide"></i>
+            </div>
           </div>
           <div class="food-desc">
             <h3 class="name">{{food.name}}</h3>
@@ -57,6 +60,9 @@
       detailShow () {
         this.showFlag = true;
       },
+      detailHide () {
+        this.showFlag = false;
+      },
       _detailScroll () {
         this.detailScroll = new BScroll(this.$refs.foodDetail, {
           click: true
@@ -103,6 +109,15 @@
             top: 0
             left: 0
             width: 100%
+            height: 100%
+          .go-back
+            position: absolute
+            left: 0
+            top: 10px
+            .icon-arrow_lift
+              padding: 10px
+              font-size: 20px
+              color: #f5f5f5
         .food-desc
           position: relative
           padding: 18px
