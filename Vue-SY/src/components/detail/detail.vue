@@ -20,11 +20,18 @@
               <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
             </p>
             <div class="addCart-btn">
-              <div class="addCart" v-show="!food.count" @click="addfood"><p class="addCart-text">加入购物车</p></div>
+              <transition name="fade">
+                <div class="addCart" v-show="!food.count || food.count === 0" @click="addfood">加入购物车</div>
+              </transition>
               <div class="cartcontrol-wrapper" v-show="food.count > 0">
                 <cartcontrol @cartadd="cartadd" :food="food"></cartcontrol>
               </div>
             </div>
+          </div>
+          <div class="food-info" v-show="food.info">
+            <split></split>
+            <h3 class="product-desciption">商品介绍</h3>
+            <p class="food-info-txt">{{food.info}}</p>
           </div>
         </div>
       </div>
@@ -36,6 +43,7 @@
   import Vue from 'vue';
   import BScroll from 'better-scroll';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
+  import split from 'components/split/split';
   export default {
     props: {
       food: {
@@ -51,14 +59,16 @@
         showFlag: false
       };
     },
-    created () {
-      this.$nextTick(() => {
-        this._detailScroll();
-      });
-    },
     methods: {
       detailShow () {
         this.showFlag = true;
+        this.$nextTick(() => {
+          if (!this.detailScroll) {
+            this._detailScroll();
+          } else {
+            this.detailScroll.refresh();
+          };
+        });
       },
       detailHide () {
         this.showFlag = false;
@@ -74,11 +84,13 @@
         };
         if (!this.food.count) {
           Vue.set(this.food, 'count', 1);
-        }
+        };
+        this.$emit('cartadd', event.target);
       }
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      split
     }
   };
 </script>
@@ -121,8 +133,6 @@
         .food-desc
           position: relative
           padding: 18px
-          border-1px(rgba(7, 17, 27, 0.1))
-          margin-bottom: 16px
           background: #fff
           .name
             font-size: 14px
@@ -172,16 +182,43 @@
             position: absolute
             right: 18px
             bottom: 18px
+            width: 86px
+            height: 24px
             .addCart
-              width: 74px
+              position: absolute
+              right: 0
+              top: 0
+              display: inline-block
+              width: 60px
               height: 24px
               background: rgb(0, 160, 220)
               border-radius: 12px
-              .addCart-text
-                font-size: 10px
-                line-height: 12px
-                padding: 6px 0
-                color: #fff
-                text-align: center
-                vertical-align: middle
+              font-size: 10px
+              line-height: 24px
+              padding: 0 12px
+              color: #fff
+              text-align: center
+              transition: all 0.2s linear
+              opacity: 1
+              &.fade-enter, &.fade-leave-active
+                opacity: 0
+            .cartcontrol-wrapper
+              position: absolute
+              right: 0
+              top: 0
+              width: 68px
+        .food-info
+          font-size: 0
+          background: #fff
+          .product-desciption
+            padding: 18px 18px 6px 18px
+            font-size: 14px
+            line-height: 14px
+            color: rgb(7, 17, 27)
+          .food-info-txt
+            padding: 0 26px 18px 26px
+            line-height: 24px
+            font-weight: 200
+            font-size: 12px
+            color: rgb(77, 85, 93)
 </style>
