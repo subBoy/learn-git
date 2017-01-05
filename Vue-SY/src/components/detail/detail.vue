@@ -33,6 +33,11 @@
             <h3 class="product-desciption">商品介绍</h3>
             <p class="food-info-txt">{{food.info}}</p>
           </div>
+          <div class="food-evaluate" v-show="food.ratings">
+            <split></split>
+            <h3 class="evaluate-name">商品评价</h3>
+            <evaluate :ratings="food.ratings" :desc="desc" :selectType="selectType" :onlyContent="onlyContent"></evaluate>
+          </div>
         </div>
       </div>
     </transition>
@@ -44,6 +49,10 @@
   import BScroll from 'better-scroll';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
   import split from 'components/split/split';
+  import evaluate from 'components/evaluate/evaluate';
+  // const POSITIVE = 0;
+  // const NEGATIVE = 1;
+  const ALL = 2;
   export default {
     props: {
       food: {
@@ -56,12 +65,21 @@
     },
     data () {
       return {
-        showFlag: false
+        showFlag: false,
+        selectType: ALL,
+        onlyContent: true,
+        desc: {
+          all: '全部',
+          satisfaction: '推荐',
+          displeasure: '吐槽'
+        }
       };
     },
     methods: {
       detailShow () {
         this.showFlag = true;
+        this.selectType = ALL;
+        this.onlyContent = true;
         this.$nextTick(() => {
           if (!this.detailScroll) {
             this._detailScroll();
@@ -90,7 +108,8 @@
     },
     components: {
       cartcontrol,
-      split
+      split,
+      evaluate
     }
   };
 </script>
@@ -184,6 +203,7 @@
             bottom: 18px
             width: 86px
             height: 24px
+            font-size: 0
             .addCart
               position: absolute
               right: 0
@@ -221,4 +241,11 @@
             font-weight: 200
             font-size: 12px
             color: rgb(77, 85, 93)
+        .food-evaluate
+          background: #fff
+          .evaluate-name
+            padding: 18px 18px 6px 18px
+            font-size: 14px
+            line-height: 14px
+            color: rgb(7, 17, 27)
 </style>
