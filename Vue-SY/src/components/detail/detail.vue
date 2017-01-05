@@ -26,6 +26,7 @@
               </div>
             </div>
           </div>
+          <evaluate :ratings="food.ratings"></evaluate>
         </div>
       </div>
     </transition>
@@ -36,6 +37,7 @@
   import Vue from 'vue';
   import BScroll from 'better-scroll';
   import cartcontrol from 'components/cartcontrol/cartcontrol';
+  import evaluate from 'components/evaluate/evaluate';
   export default {
     props: {
       food: {
@@ -78,7 +80,8 @@
       }
     },
     components: {
-      cartcontrol
+      cartcontrol,
+      evaluate
     }
   };
 </script>
