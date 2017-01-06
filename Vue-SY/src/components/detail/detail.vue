@@ -36,7 +36,7 @@
           <div class="food-evaluate" v-show="food.ratings">
             <split></split>
             <h3 class="evaluate-name">商品评价</h3>
-            <evaluate @ratingsType="ratingsType" :ratings="food.ratings" :desc="desc" :selectType="selectType" :onlyContent="onlyContent"></evaluate>
+            <evaluate @ratingsType="ratingsType" @onlyContent-fun="onlyContent_fun" :ratings="food.ratings" :desc="desc" :selectType="selectType" :onlyContent="onlyContent"></evaluate>
           </div>
         </div>
       </div>
@@ -78,7 +78,9 @@
     methods: {
       ratingsType (type) {
         this.selectType = type;
-        console.log(type);
+      },
+      onlyContent_fun () {
+        this.onlyContent = !this.onlyContent;
       },
       detailShow () {
         this.showFlag = true;

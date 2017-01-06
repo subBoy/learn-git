@@ -1,18 +1,20 @@
 <template>
   <div class="evaluate">
     <div class="evaluate-header">
-      <span class="block recommend" @click="selected_fun(2, $event)" :class="{'selected': selectType === 2}">{{desc.all}}<span class="count">57</span></span>
-      <span class="block recommend" @click="selected_fun(0, $event)" :class="{'selected': selectType === 0}">{{desc.satisfaction}}<span class="count">50</span></span>
-      <span class="block tuCao" @click="selected_fun(1, $event)" :class="{'selected': selectType === 1}">{{desc.displeasure}}<span class="count">7</span></span>
+      <span class="block recommend" @click="selected_fun(2, $event)" :class="{'selected': selectType === 2}">{{desc.all}}<span class="count">{{ratings.length}}</span></span>
+      <span class="block recommend" @click="selected_fun(0, $event)" :class="{'selected': selectType === 0}">{{desc.satisfaction}}<span class="count">{{recommend}}</span></span>
+      <span class="block tuCao" @click="selected_fun(1, $event)" :class="{'selected': selectType === 1}">{{desc.displeasure}}<span class="count">{{tuCao}}</span></span>
     </div>
     <div class="ev-switch">
-      <span class="icon-check_circle"></span>
+      <span class="icon-check_circle" @click="onlyContent_fun($event)" :class="{'onlyContent': onlyContent}"></span>
       <span class="text">只看有内容的评价</span>
     </div>
+    <comment :ratings="ratings"></comment>
   </div>
 </template>
 
 <script>
+  import comment from 'components/comment/comment';
   // const POSITIVE = 0;
   // const NEGATIVE = 1;
   const ALL = 2;
@@ -43,14 +45,36 @@
         }
       }
     },
+    computed: {
+      recommend () {
+        let num = 0;
+        this.ratings.forEach((rating) => {
+          if (rating.rateType === 0) {
+            num++;
+          };
+        });
+        return num;
+      },
+      tuCao () {
+        return this.ratings.length - this.recommend;
+      }
+    },
     methods: {
       selected_fun (type, event) {
         if (!event._constructed) {
           return;
         };
-        // this.selectType = type;
         this.$emit('ratingsType', type);
+      },
+      onlyContent_fun (event) {
+        if (!event._constructed) {
+          return;
+        };
+        this.$emit('onlyContent-fun');
       }
+    },
+    components: {
+      comment
     }
   };
 </script>
@@ -96,6 +120,8 @@
         line-height: 24px
         margin-right: 4px
         vertical-align: top
+        &.onlyContent
+          color: #00b43c
       .text
         display: inline-block
         font-size: 12px
