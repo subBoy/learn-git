@@ -1,9 +1,9 @@
 <template>
   <div class="evaluate">
     <div class="evaluate-header">
-      <span class="block recommend">{{desc.all}}<span class="count">57</span></span>
-      <span class="block recommend">{{desc.satisfaction}}<span class="count">50</span></span>
-      <span class="block tuCao">{{desc.displeasure}}<span class="count">7</span></span>
+      <span class="block recommend" @click="selected_fun(2, $event)" :class="{'selected': selectType === 2}">{{desc.all}}<span class="count">57</span></span>
+      <span class="block recommend" @click="selected_fun(0, $event)" :class="{'selected': selectType === 0}">{{desc.satisfaction}}<span class="count">50</span></span>
+      <span class="block tuCao" @click="selected_fun(1, $event)" :class="{'selected': selectType === 1}">{{desc.displeasure}}<span class="count">7</span></span>
     </div>
     <div class="ev-switch">
       <span class="icon-check_circle"></span>
@@ -42,6 +42,15 @@
           };
         }
       }
+    },
+    methods: {
+      selected_fun (type, event) {
+        if (!event._constructed) {
+          return;
+        };
+        // this.selectType = type;
+        this.$emit('ratingsType', type);
+      }
     }
   };
 </script>
@@ -57,12 +66,25 @@
       .block
         display: inline-block
         font-size: 12px
+        line-height: 16px
         padding: 8px 12px
         margin-right: 8px
+        color: rgb(77, 85, 93)
+        .count
+          display: inline-block
+          margin-left: 2px
+          line-height: 16px
+          font-size: 8px
         &.recommend
           background: rgba(0, 160, 220, 0.2)
+          &.selected
+            color: #fff
+            background: rgb(0, 160, 220)
         &.tuCao
           background: rgba(77, 85, 93, 0.2)
+          &.selected
+            color: #fff
+            background: rgb(77, 85, 93)
     .ev-switch
       font-size: 0
       margin: 0 18px
