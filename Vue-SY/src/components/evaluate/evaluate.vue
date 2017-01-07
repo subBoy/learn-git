@@ -9,7 +9,7 @@
       <span class="icon-check_circle" @click="onlyContent_fun($event)" :class="{'onlyContent': onlyContent}"></span>
       <span class="text">只看有内容的评价</span>
     </div>
-    <comment :ratings="ratings"></comment>
+    <comment :ratings="ratings" :selectType="selectType" :onlyContent="onlyContent"></comment>
   </div>
 </template>
 

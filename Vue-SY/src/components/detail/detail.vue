@@ -78,14 +78,13 @@
     methods: {
       ratingsType (type) {
         this.selectType = type;
+        this.resetHeight();
       },
       onlyContent_fun () {
         this.onlyContent = !this.onlyContent;
+        this.resetHeight();
       },
-      detailShow () {
-        this.showFlag = true;
-        this.selectType = ALL;
-        this.onlyContent = true;
+      resetHeight () {
         this.$nextTick(() => {
           if (!this.detailScroll) {
             this._detailScroll();
@@ -93,6 +92,12 @@
             this.detailScroll.refresh();
           };
         });
+      },
+      detailShow () {
+        this.showFlag = true;
+        this.selectType = ALL;
+        this.onlyContent = true;
+        this.resetHeight();
       },
       detailHide () {
         this.showFlag = false;
