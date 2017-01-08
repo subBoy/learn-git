@@ -1,8 +1,8 @@
-<!-- 自己的实现方法 -->
+<!-- 视频的实现方法 -->
 <template>
   <div class="comment">
-    <ul class="ratings-list" v-show="currentRatings && currentRatings.length">
-      <li class="ratings-item border-1px border-none" v-for="rating in currentRatings">
+    <ul class="ratings-list" v-show="ratings && ratings.length">
+      <li v-show="needShow(rating.rateType, rating.text)" class="ratings-item border-1px border-none" v-for="rating in ratings">
         <p class="time">
           <span class="block">{{rating.rateTime | formatDate}}</span>
           <span class="user-info">
@@ -18,14 +18,14 @@
         </p>
       </li>
     </ul>
-    <p class="not-ratings" v-show="currentRatings && !currentRatings.length">暂时没有符合要求的评价！！！</p>
+    <p class="not-ratings" v-show="!ratings || !ratings.length">暂时没有符合要求的评价！！！</p>
   </div>
 </template>
 
 <script>
   import {formatDates} from 'common/js/date';
-  const POSITIVE = 0;
-  const NEGATIVE = 1;
+  // const POSITIVE = 0;
+  // const NEGATIVE = 1;
   const ALL = 2;
   export default {
     props: {
@@ -44,40 +44,16 @@
         default: false
       }
     },
-    computed: {
-      currentRatings () {
-        let _ratings = [];
-        this.ratings.forEach((rating) => {
-          if (this.onlyContent) {
-            if (rating.text !== '') {
-              if (this.selectType === ALL) {
-                _ratings.push(rating);
-              } else if (this.selectType === POSITIVE) {
-                if (rating.rateType === 0) {
-                  _ratings.push(rating);
-                }
-              } else if (this.selectType === NEGATIVE) {
-                if (rating.rateType === 1) {
-                  _ratings.push(rating);
-                }
-              }
-            }
-          } else {
-            if (this.selectType === ALL) {
-              _ratings.push(rating);
-            } else if (this.selectType === POSITIVE) {
-              if (rating.rateType === 0) {
-                _ratings.push(rating);
-              }
-            } else if (this.selectType === NEGATIVE) {
-              if (rating.rateType === 1) {
-                _ratings.push(rating);
-              }
-            }
-          }
-        });
-        console.log(_ratings);
-        return _ratings;
+    methods: {
+      needShow (type, text) {
+        if (this.onlyContent && !text) {
+          return false;
+        }
+        if (this.selectType === ALL) {
+          return true;
+        } else {
+          return type === this.selectType;
+        }
       }
     },
     filters: {
