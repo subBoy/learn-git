@@ -2,21 +2,19 @@
   <div class="evaluate">
     <div class="evaluate-header">
       <span class="block recommend" @click="selected_fun(2, $event)" :class="{'selected': selectType === 2}">{{desc.all}}<span class="count">{{ratings.length}}</span></span>
-      <span class="block recommend" @click="selected_fun(0, $event)" :class="{'selected': selectType === 0}">{{desc.satisfaction}}<span class="count">{{recommend}}</span></span>
-      <span class="block tuCao" @click="selected_fun(1, $event)" :class="{'selected': selectType === 1}">{{desc.displeasure}}<span class="count">{{tuCao}}</span></span>
+      <span class="block recommend" @click="selected_fun(0, $event)" :class="{'selected': selectType === 0}">{{desc.satisfaction}}<span class="count"><!-- {{recommend}} -->{{pasitives.length}}</span></span>
+      <span class="block tuCao" @click="selected_fun(1, $event)" :class="{'selected': selectType === 1}">{{desc.displeasure}}<span class="count"><!-- {{tuCao}} -->{{negatives.length}}</span></span>
     </div>
     <div class="ev-switch">
       <span class="icon-check_circle" @click="onlyContent_fun($event)" :class="{'onlyContent': onlyContent}"></span>
       <span class="text">只看有内容的评价</span>
     </div>
-    <comment :ratings="ratings" :selectType="selectType" :onlyContent="onlyContent"></comment>
   </div>
 </template>
 
 <script>
-  import comment from 'components/comment/comment';
-  // const POSITIVE = 0;
-  // const NEGATIVE = 1;
+  const POSITIVE = 0;
+  const NEGATIVE = 1;
   const ALL = 2;
   export default {
     props: {
@@ -46,17 +44,29 @@
       }
     },
     computed: {
-      recommend () {
-        let num = 0;
-        this.ratings.forEach((rating) => {
-          if (rating.rateType === 0) {
-            num++;
-          };
+      // 自己的方法
+      // recommend () {
+      //   let num = 0;
+      //   this.ratings.forEach((rating) => {
+      //     if (rating.rateType === 0) {
+      //       num++;
+      //     };
+      //   });
+      //   return num;
+      // },
+      // tuCao () {
+      //   return this.ratings.length - this.recommend;
+      // },
+      // 视屏的方法
+      pasitives () {
+        return this.ratings.filter((rating) => {
+          return rating.rateType === POSITIVE;
         });
-        return num;
       },
-      tuCao () {
-        return this.ratings.length - this.recommend;
+      negatives () {
+        return this.ratings.filter((rating) => {
+          return rating.rateType === NEGATIVE;
+        });
       }
     },
     methods: {
@@ -72,9 +82,6 @@
         };
         this.$emit('onlyContent-fun');
       }
-    },
-    components: {
-      comment
     }
   };
 </script>

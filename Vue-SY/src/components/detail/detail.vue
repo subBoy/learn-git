@@ -37,6 +37,9 @@
             <split></split>
             <h3 class="evaluate-name">商品评价</h3>
             <evaluate @ratingsType="ratingsType" @onlyContent-fun="onlyContent_fun" :ratings="food.ratings" :desc="desc" :selectType="selectType" :onlyContent="onlyContent"></evaluate>
+            <div class="comment-wrapper">
+              <comment :ratings="food.ratings" :selectType="selectType" :onlyContent="onlyContent"></comment>
+            </div>
           </div>
         </div>
       </div>
@@ -50,6 +53,7 @@
   import cartcontrol from 'components/cartcontrol/cartcontrol';
   import split from 'components/split/split';
   import evaluate from 'components/evaluate/evaluate';
+  import comment from 'components/comment/comment';
   // const POSITIVE = 0;
   // const NEGATIVE = 1;
   const ALL = 2;
@@ -120,7 +124,8 @@
     components: {
       cartcontrol,
       split,
-      evaluate
+      evaluate,
+      comment
     }
   };
 </script>
@@ -225,7 +230,7 @@
               background: rgb(0, 160, 220)
               border-radius: 12px
               font-size: 10px
-              line-height: 24px
+              line-height: 25px
               padding: 0 12px
               color: #fff
               text-align: center

@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="bulletin-wrapper" @click="showDetail">
-      <span class="bulletin-title"></span><span class="bulletin-text" v-text="seller.bulletin"></span>
+      <span class="bulletin-title"></span>{{seller.bulletin}}
       <i class='icon-keyboard_arrow_right'></i>
     </div>
     <div class="header-bg">
@@ -168,40 +168,42 @@
         border-radius: 14px
         background: rgba(0, 0, 0, 0.2)
         text-align: center
+        font-size: 0
         .count
+          display: inline-block
           vertical-align: top
           font-size: 10px
+          line-height: 25px
         .icon-keyboard_arrow_right
+          display: inline-block
           margin-left: 2px
-          line-height: 24px
+          line-height: 25px
           font-size: 10px
     .bulletin-wrapper
       height: 28px
-      line-height: 28px
+      line-height: 29px
       padding: 0 22px 0 12px
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
       position: relative
       background-color: rgba(7, 17, 27, 0.2)
+      font-size: 10px
       .bulletin-title
         vertical-align: top
         display: inline-block
-        margin-top: 8px
+        margin: 8px 4px 0 0
         width: 22px
         height: 12px
         bg-img('bulletin')
         background-size: 22px 12px
         background-repeat: no-repeat
-      .bulletin-text
-        margin: 0 4px
-        font-size: 10px
-        line-height: 28px
       .icon-keyboard_arrow_right
+        display: inline-block
         position: absolute
         font-size: 10px
         right: 12px
-        top: 8px
+        top: 9px
     .header-bg
       position: absolute
       top: 0

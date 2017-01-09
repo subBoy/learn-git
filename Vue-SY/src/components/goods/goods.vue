@@ -187,6 +187,7 @@
           background: #fff
           .text
             border-none()
+            color: rgb(240, 20, 20)
             font-weight: 700
         .icon
           display: inline-block
@@ -211,7 +212,7 @@
           width: 56px
           vertical-align: middle
           font-size: 12px
-          color: rgb(240, 20, 20)
+          color: #07111b
           font-weight: 200
           line-height: 14px
           border-1px(rgba(7, 17, 27, 0.1))
