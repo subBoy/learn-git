@@ -21,7 +21,7 @@ var app = express()
 var appData = require('../data.json')
 
 var goods = appData.goods
-var ratings = appData.goods
+var ratings = appData.ratings
 var seller = appData.seller
 
 var apiRoutes = express.Router()
