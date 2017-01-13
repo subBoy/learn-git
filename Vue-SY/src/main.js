@@ -29,4 +29,4 @@ new Vue({
   router: router
 }).$mount('#app');
 
-router.push('/goods');
+// router.push('/goods');
