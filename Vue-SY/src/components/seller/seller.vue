@@ -62,6 +62,7 @@
 
 <script>
   import BScroll from 'better-scroll';
+  import {saveToLocal, loadFromLocal} from 'common/js/store';
   import star from 'components/star/star';
   import split from 'components/split/split';
   export default {
@@ -72,7 +73,9 @@
     },
     data () {
       return {
-        collection: false
+        collection: (() => {
+          return loadFromLocal(this.seller.id, 'collection', false);
+        })()
       };
     },
     computed: {
@@ -128,6 +131,7 @@
           return;
         };
         this.collection = !this.collection;
+        saveToLocal(this.seller.id, 'collection', this.collection);
       }
     },
     components: {
