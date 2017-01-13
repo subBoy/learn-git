@@ -154,8 +154,8 @@
             &.special
               bg-img('special_1')
           .text
-            vertical-align: middle
             display: inline-block
+            vertical-align: middle
             line-height: 12px
             font-size: 10px
       .support-count

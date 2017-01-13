@@ -18,13 +18,19 @@
 
 <script>
   import header from 'components/header/header';
+  import {urlParse} from 'common/js/util';
 
   const ERR_OK = 0;
 
   export default {
     data () {
       return {
-        seller: {}
+        seller: {
+          id: (() => {
+            let queryParam = urlParse();
+            return queryParam.id;
+          })()
+        }
       };
     },
     created () {
