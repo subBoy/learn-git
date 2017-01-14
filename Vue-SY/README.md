@@ -8,11 +8,16 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:9898
+<!-- 开发环境 -->
 npm run dev
 
 # build for production with minification
 npm run build
+
+# serve with hot reload at localhost:8090
+<!-- 生产环境 -->
+npm run prod
 
 # run unit tests
 npm run unit

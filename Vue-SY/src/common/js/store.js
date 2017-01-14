@@ -1,8 +1,7 @@
 /**
  *
- * @authors Your Name (you@example.org)
- * @date    2017-01-13 22:26:05
- * @version $Id$
+ * 存取数据
+ *
  */
 export function saveToLocal (id, key, value) {
   let seller = window.localStorage.__seller__;
