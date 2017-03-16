@@ -196,7 +196,7 @@
           };
         }
       },
-      enter (el, done) {
+      enter (el) {
         /* eslint-disable no-unused-vars */
         let rf = el.offsetHeight;
         this.$nextTick(() => {
@@ -206,7 +206,6 @@
           inner.style.webkitTransform = 'translate3d(0, 0, 0)';
           inner.style.transform = 'translate3d(0, 0, 0)';
         });
-        done();
       },
       afterEnter (el) {
         let ball = this.dropBalls.shift();

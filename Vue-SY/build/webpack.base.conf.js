@@ -59,6 +59,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.scss$/,
+        loader: 'style!css!sass'
+        // loader: ExtractTextPlugin.extract("style", 'css!sass')
+      },
+      {
         test: /\.json$/,
         loader: 'json'
       },
@@ -84,7 +89,10 @@ module.exports = {
     formatter: require('eslint-friendly-formatter')
   },
   vue: {
-    loaders: utils.cssLoaders({ sourceMap: useCssSourceMap }),
+    loaders: utils.cssLoaders({
+      sourceMap: useCssSourceMap,
+      sass: "css!sass"
+    }),
     postcss: [
       require('autoprefixer')({
         browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
